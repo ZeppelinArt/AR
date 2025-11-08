@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- A-Frame -->
+    <script src="https://cdn.jsdelivr.net/npm/aframe@1.2.0/dist/aframe.min.js"></script>
+
+    <!-- AR.js -->
+    <script src="https://cdn.jsdelivr.net/npm/ar.js@3.3.2/aframe/build/aframe-ar.js"></script>
+
+    <style>
+      body { margin: 0; overflow: hidden; }
+      #btnAudio {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        padding: 10px 16px;
+        background: #ffffffaa;
+        border-radius: 8px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Audio button (necesario en móviles) -->
+    <button id="btnAudio">Activar sonido</button>
+
+    <video id="miVideo" src="video.mp4" loop playsinline></video>
+
+    <a-scene embedded arjs="trackingMethod: best; sourceType: webcam;">
+      <a-marker type="pattern" url="marker.patt">
+        <a-video 
+          src="#miVideo"
+          width="1"
+          height="0.6"
+          position="0 0.2 0"
+          rotation="-90 0 0"
+          scale="1 1 1">
+        </a-video>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+      const btn = document.getElementById("btnAudio");
+      const vid = document.getElementById("miVideo");
+
+      // El video debe iniciarse manualmente para habilitar audio
+      btn.onclick = () => {
+        vid.muted = false;
+        vid.play();
+        btn.style.display = "none";
+      };
+
+      // Iniciar silenciado para auto-play en móviles
+      vid.muted = true;
+      vid.play();
+    </script>
+  </body>
+</html>
